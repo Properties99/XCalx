@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Budget and Annual Return Calculator</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1><strong>Property Budget</strong></h1>
+
+    <label for="originalPrice">Original Price:</label>
+    <select id="originalPrice">
+        <option value="100000">100,000</option>
+        <option value="200000">200,000</option>
+        <option value="300000">300,000</option>
+        <option value="400000">400,000</option>
+    </select>
+
+    <label for="discount">Discount (%):</label>
+    <input type="number" id="discount" value="0" min="0" max="100">
+
+    <label for="taxRate">Tax Rate (%):</label>
+    <input type="number" id="taxRate" value="0" min="0" max="100">
+
+    <button onclick="calculateBudget()">Calculate Budget</button>
+
+    <div id="budgetResult" class="hidden">
+        <h2>Budget Result</h2>
+        <p id="finalPrice"></p>
+    </div>
+
+    <h1><strong>Annual Return Calculator</strong></h1>
+
+    <div id="inputFields">
+        <h2>Enter Values for 8 Years</h2>
+        <label for="year0">Year 0:</label>
+        <select id="year0" onchange="updateValues()">
+            <option value="500000">500,000</option>
+            <option value="1000000">1,000,000</option>
+            <option value="5000000">5,000,000</option>
+            <option value="10000000">10,000,000</option>
+            <option value="20000000">20,000,000</option>
+            <option value="40000000">40,000,000</option>
+            <option value="50000000">50,000,000</option>
+        </select><br>
+        <label for="year1">Year 1:</label>
+        <input type="number" id="year1"><br>
+        <label for="year2">Year 2:</label>
+        <input type="number" id="year2"><br>
+        <label for="year3">Year 3:</label>
+        <input type="number" id="year3"><br>
+        <label for="year4">Year 4:</label>
+        <input type="number" id="year4"><br>
+        <label for="year5">Year 5:</label>
+        <input type="number" id="year5"><br>
+        <label for="year6">Year 6:</label>
+        <input type="number" id="year6"><br>
+        <label for="year7">Year 7:</label>
+        <input type="number" id="year7"><br>
+        <label for="year8">Year 8:</label>
+        <input type="number" id="year8"><br>
+    </div>
+
+    <button onclick="calculateReturns()">Calculate Annual Returns</button>
+
+    <div id="result" class="hidden">
+        <h2>Annual Return Result</h2>
+        <table id="resultsTable">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Value</th>
+                    <th>Annual Return (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <h1><strong>Installments over 8 Years</strong></h1>
+
+    <div id="installmentsFields">
+        <h2>Installment Values for 8 Years</h2>
+        <label for="installmentYear0">Year 0:</label>
+        <select id="installmentYear0" onchange="updateInstallments()">
+            <option value="500000">500,000</option>
+            <option value="1000000">1,000,000</option>
+            <option value="5000000">5,000,000</option>
+            <option value="10000000">10,000,000</option>
+            <option value="20000000">20,000,000</option>
+            <option value="40000000">40,000,000</option>
+            <option value="50000000">50,000,000</option>
+        </select><br>
+        <label for="installmentYear1">Year 1:</label>
+        <input type="number" id="installmentYear1" readonly><br>
+        <label for="installmentYear2">Year 2:</label>
+        <input type="number" id="installmentYear2" readonly><br>
+        <label for="installmentYear3">Year 3:</label>
+        <input type="number" id="installmentYear3" readonly><br>
+        <label for="installmentYear4">Year 4:</label>
+        <input type="number" id="installmentYear4" readonly><br>
+        <label for="installmentYear5">Year 5:</label>
+        <input type="number" id="installmentYear5" readonly><br>
+        <label for="installmentYear6">Year 6:</label>
+        <input type="number" id="installmentYear6" readonly><br>
+        <label for="installmentYear7">Year 7:</label>
+        <input type="number" id="installmentYear7" readonly><br>
+        <label for="installmentYear8">Year 8:</label>
+        <input type="number" id="installmentYear8" readonly><br>
+    </div>
+
+    <div id="installmentsResult" class="hidden">
+        <h2>Installments Result</h2>
+        <table id="installmentsTable">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Installment Value</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function calculateBudget() {
+            var originalPrice = parseFloat(document.getElementById('originalPrice').value);
+            var discount = parseFloat(document.getElementById('discount').value);
+            var taxRate = parseFloat(document.getElementById('taxRate').value);
+
+            var discountedPrice = originalPrice * ((100 - discount) / 100);
+            var finalPrice = discountedPrice * ((100 + taxRate) / 100);
+
+            document.getElementById('finalPrice').innerText = "Final Price: $" + finalPrice.toFixed(2);
+            document.getElementById('budgetResult').classList.remove('hidden');
+        }
+
+        function updateValues() {
+            var year0 = parseFloat(document.getElementById('year0').value);
+            var multipliers = [1.3, 1.3, 1.3, 1.3, 1.3, 1.3, 1.3, 1.3];
+
+            for (let i = 1; i <= 8; i++) {
+                year0 *= multipliers[i - 1];
+                document.getElementById(`year${i}`).value = year0.toFixed(2);
+            }
+        }
+
+        function updateInstallments() {
+            var year0 = parseFloat(document.getElementById('installmentYear0').value);
+            var multipliers = [1.3, 1.3, 1.3, 1.3, 1.3, 1.3, 1.3, 1.3];
+
+            for (let i = 1; i <= 8; i++) {
+                year0 /= multipliers[i - 1];
+                document.getElementById(`installmentYear${i}`).value = year0.toFixed(2);
+            }
+        }
+
+        function calculateCAGR(startValue, endValue, years) {
+            return ((endValue / startValue) ** (1 / years) - 1) * 100;
+        }
+
+        function calculateReturns() {
+            const values = [];
+            for (let i = 0; i <= 8; i++) {
+                values.push(parseFloat(document.getElementById(`year${i}`).value));
+            }
+
+            const resultsTableBody = document.getElementById('resultsTable').getElementsByTagName('tbody')[0];
+            resultsTableBody.innerHTML = ''; // Clear existing rows
+
+            for (let year = 0; year < values.length - 1; year++) {
+                const startValue = values[year];
+                const endValue = values[year + 1];
+                const annualReturn = calculateCAGR(startValue, endValue, 1);
+
+                const row = resultsTableBody.insertRow();
+                row.insertCell(0).innerText = year;
+                row.insertCell(1).innerText = `$${startValue.toLocaleString()}`;
+                row.insertCell(2).innerText = `${annualReturn.toFixed(2)}%`;
+            }
+
+            //  Add final year value without calculating return
+            const finalRow = resultsTableBody.insertRow();
+            finalRow.insertCell(0).innerText = values.length - 1;
+            finalRow.insertCell(1).innerText = `$${values[values.length - 1].toLocaleString()}`;
+            finalRow.insertCell(2).innerText = '-';
+
+            document.getElementById('result').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
